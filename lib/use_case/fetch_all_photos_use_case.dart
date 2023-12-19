@@ -3,9 +3,9 @@ import 'package:photos_task/config/use_case.dart';
 import 'package:photos_task/model/photo.dart';
 import 'package:photos_task/repo/photo_repository.dart';
 
-class FetchPhotosByAlbumUseCase extends UseCase<List<Photo>, WithParams> {
+class FetchAllPhotosUseCase extends UseCase<List<Photo>, NoParams> {
   @override
-  Future<List<Photo>> call(WithParams params) async {
-    return await getIt<PhotoRepository>().fetchPhotosByAlbum(params.data);
+  Future<List<Photo>> call(NoParams params) async {
+    return await getIt<PhotoRepository>().fetchPhotos();
   }
 }
