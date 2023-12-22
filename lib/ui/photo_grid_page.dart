@@ -10,7 +10,7 @@ import 'package:photos_task/ui/widgets/photo_grid.dart';
 import 'package:photos_task/ui/widgets/photo_menu.dart';
 
 class PhotoGridPage extends StatefulWidget {
-  const PhotoGridPage({super.key});
+  const PhotoGridPage({Key? key}) : super(key: key);
 
   @override
   _PhotoGridPageState createState() => _PhotoGridPageState();
@@ -23,40 +23,23 @@ class _PhotoGridPageState extends State<PhotoGridPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: BlocBuilder<PhotoBloc, PhotoState>(
-          builder: (context, state) {
-            if (state is PhotosLoaded && state.selectedAlbumId != null) {
-              return Text('Album ${state.selectedAlbumId}');
-            }
-            return const Text('All Photos');
-          },
-        ),
+        title: _buildAppBarTitle(),
         actions: <Widget>[
           _buildPhotoMenu(),
         ],
       ),
-      body: BlocBuilder<PhotoBloc, PhotoState>(
-        builder: (context, state) {
-          if (state is PhotosLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is PhotosLoaded) {
-            return PhotoGrid(
-              photos: state.photos,
-              onImageTap: (imageUrl) {
-                showDialog(
-                  context: context,
-                  builder: (context) => Dialog(
-                    child: Image.network(imageUrl, fit: BoxFit.cover),
-                  ),
-                );
-              },
-            );
-          } else if (state is PhotosError) {
-            return const Center(child: Text('Error loading photos'));
-          }
-          return const Center(child: Text('Please select an album'));
-        },
-      ),
+      body: _buildPhotoGridBody(),
+    );
+  }
+
+  Widget _buildAppBarTitle() {
+    return BlocBuilder<PhotoBloc, PhotoState>(
+      builder: (context, state) {
+        if (state is PhotosLoaded && state.selectedAlbumId != null) {
+          return Text('Album ${state.selectedAlbumId}');
+        }
+        return const Text('All Photos');
+      },
     );
   }
 
@@ -68,6 +51,26 @@ class _PhotoGridPageState extends State<PhotoGridPage> {
         } else if (value == 'all_photos') {
           BlocProvider.of<PhotoBloc>(context).add(LoadAllPhotos());
         }
+      },
+    );
+  }
+
+  Widget _buildPhotoGridBody() {
+    return BlocBuilder<PhotoBloc, PhotoState>(
+      builder: (context, state) {
+        if (state is PhotosLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is PhotosLoaded) {
+          return PhotoGrid(
+            photos: state.photos,
+            onImageTap: (imageUrl) {
+              _showImageDialog(context, imageUrl);
+            },
+          );
+        } else if (state is PhotosError) {
+          return const Center(child: Text('Error loading photos'));
+        }
+        return const Center(child: Text('Please select an album'));
       },
     );
   }
@@ -103,6 +106,15 @@ class _PhotoGridPageState extends State<PhotoGridPage> {
           ],
         );
       },
+    );
+  }
+
+  void _showImageDialog(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        child: Image.network(imageUrl, fit: BoxFit.cover),
+      ),
     );
   }
 }

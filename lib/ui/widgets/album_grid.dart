@@ -21,30 +21,34 @@ class AlbumGrid extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         var albumId = albums.elementAt(index);
-        return GestureDetector(
-          onTap: () => onAlbumSelected(albumId),
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Card(
-              elevation: 4.0,
-              child: Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Colors.blueGrey[100],
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  'Album $albumId',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+        return _buildAlbumCard(albumId);
+      },
+    );
+  }
+
+  Widget _buildAlbumCard(int albumId) {
+    return GestureDetector(
+      onTap: () => onAlbumSelected(albumId),
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Card(
+          elevation: 4.0,
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.blueGrey[100],
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              'Album $albumId',
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
