@@ -1,16 +1,23 @@
-# photos_task
+# PhotoGrid App
 
-A new Flutter project.
+## Description
 
-## Getting Started
+PhotoGrid is a mobile application created with Flutter, enabling users to view and sort photos from an external API.
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+- **Photo Browsing**: Displays photos from an API in a grid layout.
+- **Album Sorting**: Allows filtering photos based on selected albums.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Technologies and Architecture
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Flutter**: A framework for building mobile applications.
+- **BLoC (Business Logic Component)**: Manages application state and business logic.
+- **GetIt**: Dependency injection mechanism.
+- **UseCase**: Implements the UseCase pattern to separate business logic from the data repository.
+
+## Usage
+
+1. Clone the repository.
+2. Run `flutter pub get`.
+3. Launch the app with `flutter run`.
